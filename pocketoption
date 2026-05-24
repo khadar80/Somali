@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaliPocketOption</title>
+    </head>
+<body>
+
+    <header>
+        <h1>SomaliPocketOption</h1>
+        <nav>
+            <button>Gal Akoonka</button>
+            <button>Iska Diiwaangeli</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Baro Xirfad Cusub, Garaadkaagana Kordhi</h2>
+        <p>Baro sida looga ganacsado suuqyada caalamiga ah adigoo isticmaalaya xeelado la tijaabiyay.</p>
+        <button>Bilow Casharada Bilaashka ah</button>
+    </section>
+
+    <section class="courses">
+        <div class="course-card free">
+            <h3>Casharka 1: Hordhaca Suuqa</h3>
+            <button>Daawasho Furan ▶️</button>
+        </div>
+        <div class="course-card free">
+            <h3>Casharka 2: Faa'iidada Koowaad</h3>
+            <button>Daawasho Furan ▶️</button>
+        </div>
+        <div class="course-card vip">
+            <h3>Casharka 3: Xeeladda Qarsoon</h3>
+            <button>🔒 Qufulan (VIP)</button>
+        </div>
+    </section>
+
+</body>
+</html>
