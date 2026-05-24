@@ -21,5 +21,127 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #d4af37; /* Xariiq Dah
-            
+            border-bottom: 2px solid #d4af37; /* Xariiq Dahabi ah */
+        }
+        header h1 {
+            margin: 0;
+            color: #d4af37; /* Midab Dahabi ah */
+        }
+        nav button {
+            background-color: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        nav button:hover {
+            background-color: #d4af37;
+            color: #000;
+        }
+
+        /* 2. Qaybta Soo Dhaweynta (Hero Section) */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+        }
+        .hero h2 {
+            color: #d4af37;
+            font-size: 36px;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+        .hero button {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hero button:hover {
+            background-color: #b5952f;
+        }
+
+        /* 3. Shabaqa Casharrada (Course Grid) */
+        .courses {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+        .course-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .course-card h3 {
+            color: #ffffff;
+        }
+        .course-card button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        .free button {
+            background-color: #28a745; /* Cagaar */
+            color: white;
+        }
+        .vip {
+            border: 1px solid #d4af37; /* Loo soocay VIP */
+        }
+        .vip button {
+            background-color: #333; /* Cawlan */
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SomaliPocketOption</h1>
+        <nav>
+            <button>Gal Akoonka</button>
+            <button>Iska Diiwaangeli</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Baro Xirfad Cusub, Garaadkaagana Kordhi</h2>
+        <p>Baro sida looga ganacsado suuqyada caalamiga ah adigoo isticmaalaya xeelado la tijaabiyay.</p>
+        <button>Bilow Casharada Bilaashka ah</button>
+    </section>
+
+    <section class="courses">
+        <div class="course-card free">
+            <h3>Casharka 1: Hordhaca Suuqa</h3>
+            <button>Daawasho Furan ▶️</button>
+        </div>
+        <div class="course-card free">
+            <h3>Casharka 2: Faa'iidada Koowaad</h3>
+            <button>Daawasho Furan ▶️</button>
+        </div>
+        <div class="course-card vip">
+            <h3>Casharka 3: Xeeladda Qarsoon</h3>
+            <button>🔒 Qufulan (VIP)</button>
+        </div>
+    </section>
+
+</body>
+</html>
