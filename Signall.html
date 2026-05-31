@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOM VIP SIGNALS - Live Forex Analysis</title>
+    <style>
+        :root {
+            --bg-color: #06090f;
+            --card-bg: #0d1117;
+            --text-color: #f0f6fc;
+            --accent-green: #238636;
+            --accent-red: #da3633;
+            --blue-glow: #1f6feb;
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header h1 {
+            color: var(--text-color);
+            font-size: 2.5rem;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        header h1 span {
+            color: #e3b341; /* Gold VIP Color */
+            text-shadow: 0 0 10px rgba(227, 179, 65, 0.3);
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* Controls Section for Timeframes */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tf-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tf-btn:hover, .tf-btn.active {
+            background-color: var(--blue-glow);
+            border-color: var(--blue-glow);
+            box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
+        }
+
+        /* Signals Grid */
+        .signals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .signal-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .pair-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .live-badge {
+            background-color: rgba(35, 134, 54, 0.15);
+            color: #3fb950;
+            border: 1px solid #238636;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Technical Gauge Widget Container */
+        .widget-container {
+            width: 100%;
+            height: 220px;
+            background-color: transparent;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            color: #8b949e;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SOM <span>VIP SIGNALS</span></h1>
+    <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real-Time Market Feed)</p>
+</header>
+
+<!-- Qaybta Timeframes-ka -->
+<div class="controls">
+    <button class="tf-btn" onclick="changeTimeframe('1m')">1M</button>
+    <button class="tf-btn" onclick="changeTimeframe('5m')">5M</button>
+    <button class="tf-btn active" onclick="changeTimeframe('15m')">15M</button>
+    <button class="tf-btn" onclick="changeTimeframe('1h')">1H</button>
+    <button class="tf-btn" onclick="changeTimeframe('4h')">4H</button>
+    <button class="tf-btn" onclick="changeTimeframe('1d')">1D</button>
+</div>
+
+<!-- Grid-ka ay ku dhex jiraan Dhamaan Currency Pairs-ka ugu waaweyn -->
+<div class="signals-grid" id="signalsGrid">
+    <!-- Lammaanayaasha Lacagaha waxaa si toos ah u dhalin doona JavaScript -->
+</div>
+
+<div class="footer-note">
+    <p>&copy; 2026 SOM VIP SIGNALS. Dhammaan xogta waxay si toos ah uga timaadaa suuqa caalamiga ah ee Forex iyadoo la isticmaalayo nidaamka farsamada ee TradingView.</p>
+</div>
+
+<!-- TradingView Embed Script API -->
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async></script>
+
+<script>
+    // Liiska dhammaan currency pairs-ka Forex ugu caansan suuqyada VIP-da
+    const currencyPairs = [
+        { symbol: "FX:EURUSD", name: "EUR/USD" },
+        { symbol: "FX:GBPUSD", name: "GBP/USD" },
+        { symbol: "FX:USDJPY", name: "USD/JPY" },
+        { symbol: "FX:AUDUSD", name: "AUD/USD" },
+        { symbol: "FX:USDCAD", name: "USD/CAD" },
+        { symbol: "FX:USDCHF", name: "USD/CHF" },
+        { symbol: "FX:NZDUSD", name: "NZD/USD" },
+        { symbol: "FX:EURGBP", name: "EUR/GBP" }
+    ];
+
+    let currentTimeframe = "15m"; // Default timeframe
+
+    function renderSignals() {
+        const grid = document.getElementById("signalsGrid");
+        grid.innerHTML = ""; // Nadiifi grid-ka kahor intaan la dib u dhisin
+
+        currencyPairs.forEach((pair, index) => {
+            // Abuur card-ka salka u ah lamaane kasta
+            const card = document.createElement("div");
+            card.className = "signal-card";
+
+            card.innerHTML = `
+                <div class="signal-header">
+                    <div class="pair-name">${pair.name}</div>
+                    <div class="live-badge">100% LIVE</div>
+                </div>
+                <div class="widget-container" id="widget_${index}"></div>
+            `;
+
+            grid.appendChild(card);
+
+            // Habka loogu dhex radayo widget-ka rasmiga ah ee suuqa la socda
+            const widgetScript = document.createElement("script");
+            widgetScript.type = "text/javascript";
+            widgetScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+            widgetScript.async = true;
+            
+            // Habaynta qaabka widget-ka VIP-da oo Advance ah
+            widgetScript.innerHTML = JSON.stringify({
+                "interval": currentTimeframe,
+                "width": "100%",
+                "isDtoNotModify": false,
+                "isDataReady": true,
+                "height": "100%",
+                "symbol": pair.symbol,
+                "showIntervalTabs": false,
+                "displayMode": "single",
+                "locale": "en",
+                "colorTheme": "dark"
+            });
+
+            document.getElementById(`widget_${index}`).appendChild(widgetScript);
+        });
+    }
+
+    // Habka loogu beddelayo Timeframe-yada kala duwan
+    function changeTimeframe(tf) {
+        currentTimeframe = tf;
+        
+        // Beddel muuqaalka badhamada (Active state)
+        const buttons = document.querySelectorAll('.tf-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        // Ku dar active badhanka la riixay
+        event.target.classList.add('active');
+        
+        // Dib u kici nidaamka si xogta timeframe-ka cusub toos loogu soo jiido
+        renderSignals();
+    }
+
+    // Kici nidaamka markii ugu horreysay ee mareegtu furanto
+    window.onload = renderSignals;
+</script>
+
+</body>
+</html>
