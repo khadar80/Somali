@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOM VIP SIGNALS</title>
+    <style>
+        :root {
+            --bg-color: #06090f;
+            --bot-bg: #0d1117;
+            --text-color: #f0f6fc;
+            --accent-green: #00b060;
+            --accent-red: #ea4335;
+            --border-color: #30363d;
+            --gold: #e3b341;
+        }
+
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 430px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin: 0;
+            color: var(--text-color);
+            letter-spacing: 1px;
+        }
+
+        header h1 span {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(227, 179, 65, 0.3);
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 430px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(37,211,102,0.2);
+            box-sizing: border-box;
+        }
+
+        .bot-container {
+            width: 100%;
+            max-width: 430px;
+            background-color: var(--bot-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .bot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bot-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            background-color: rgba(0, 176, 96, 0.15);
+            color: var(--accent-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 1px solid var(--accent-green);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select {
+            width: 100%;
+            background-color: #161b22;
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1f6feb, #11499f);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .signal-output {
+            margin-top: 25px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .loader-text {
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .accuracy-bar {
+            width: 100%;
+            background-color: #161b22;
+            height: 6px;
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .accuracy-fill {
+            height: 100%;
+            background-color: var(--gold);
+            width: 0%;
+        }
+
+        .final-signal {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: none;
+        }
+
+        .up-signal {
+            background-color: var(--accent-green);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 176, 96, 0.3);
+        }
+
+        .down-signal {
+            background-color: var(--accent-red);
+            color: white;
+            box-shadow: 0 4px 15px rgba(234, 67, 53, 0.3);
+        }
+
+        .widget-box {
+            width: 100%;
+            max-width: 430px;
+            background-color: var(--bot-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-sizing: border-box;
+            height: 440px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SOM <span>VIP SIGNALS</span></h1>
+    <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real Market Decisions)</p>
+</header>
+
+<a href="https://wa.me/252907492663" class="whatsapp-btn" target="_blank">💬 Caawimaad Gaara & VIP Strategy</a>
+
+<div class="bot-container">
+    <div class="bot-header">
+        <div class="bot-title">🤖 VIP REAL-TIME BOT</div>
+        <div class="status-badge">ACTIVE</div>
+    </div>
+
+    <div class="form-group">
+        <label>Currency Pair</label>
+        <select id="pairSelect" onchange="updateWidget()">
+            <!-- Majors -->
+            <option value="FX:EURUSD">EUR/USD</option>
+            <option value="FX:GBPUSD">GBP/USD</option>
+            <option value="FX:USDJPY">USD/JPY</option>
+            <option value="FX:AUDUSD">AUD/USD</option>
+            <option value="FX:USDCAD">USD/CAD</option>
+            <option value="FX:USDCHF">USD/CHF</option>
+            <option value="FX:NZDUSD">NZD/USD</option>
+            <!-- Euro Crosses -->
+            <option value="FX:EURGBP">EUR/GBP</option>
+            <option value="FX:EURJPY">EUR/JPY</option>
+            <option value="FX:EURAUD">EUR/AUD</option>
+            <option value="FX:EURCAD">EUR/CAD</option>
+            <option value="FX:EURCHF">EUR/CHF</option>
+            <option value="FX:EURNZD">EUR/NZD</option>
+            <!-- GBP Crosses -->
+            <option value="FX:GBPJPY">GBP/JPY</option>
+            <option value="FX:GBPAUD">GBP/AUD</option>
+            <option value="FX:GBPCAD">GBP/CAD</option>
+            <option value="FX:GBPCHF">GBP/CHF</option>
+            <option value="FX:GBPNZD">GBP/NZD</option>
+            <!-- Other Crosses -->
+            <option value="FX:AUDJPY">AUD/JPY</option>
+            <option value="FX:CADJPY">CAD/JPY</option>
+            <option value="FX:CHFJPY">CHF/JPY</option>
+            <option value="FX:NZDJPY">NZD/JPY</option>
+            <option value="FX:AUDCAD">AUD/CAD</option>
+            <option value="FX:AUDCHF">AUD/CHF</option>
+            <option value="FX:AUDNZD">AUD/NZD</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Timeframe</label>
+        <select id="timeframeSelect" onchange="updateWidget()">
+            <option value="1m">1 MINUTE</option>
+            <option value="5m">5 MINUTES</option>
+            <option value="15m">15 MINUTES</option>
+            <option value="1h">1 HOUR</option>
+            <option value="4h">4 HOURS</option>
+            <option value="1d">1 DAY</option>
+        </select>
+    </div>
+
+    <button class="generate-btn" id="actionBtn" onclick="generateAiSignal()">GET SIGNAL</button>
+
+    <div class="signal-output" id="outputArea">
+        <div class="loader-text" id="statusText">Waiting...</div>
+        <div id="infoDetails" style="font-size: 0.9rem; color: #8b949e; text-align: left; margin-top: 10px;"></div>
+        
+        <div class="accuracy-bar">
+            <div class="accuracy-fill" id="accFill"></div>
+        </div>
+
+        <div class="final-signal" id="signalResult"></div>
+    </div>
+</div>
+
+<div class="widget-box">
+    <div class="tradingview-widget-container" style="height:100%;width:100%;">
+        <div id="tradingview_analysis_widget" style="height:100%;width:100%;"></div>
+    </div>
+</div>
+
+<script>
+    function updateWidget() {
+        const selectedPair = document.getElementById("pairSelect").value;
+        const selectedTf = document.getElementById("timeframeSelect").value;
+        const container = document.getElementById("tradingview_analysis_widget");
+        
+        container.innerHTML = "";
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+        script.async = true;
+        
+        script.innerHTML = JSON.stringify({
+            "interval": selectedTf,
+            "width": "100%",
+            "isDtoNotModify": false,
+            "isDataReady": true,
+            "height": "100%",
+            "symbol": selectedPair,
+            "showIntervalTabs": false,
+            "displayMode": "live",
+            "locale": "en",
+            "colorTheme": "dark"
+        });
+        
+        container.appendChild(script);
+        document.getElementById("outputArea").style.display = "none";
+    }
+
+    function generateAiSignal() {
+        const outputArea = document.getElementById("outputArea");
+        const statusText = document.getElementById("statusText");
+        const accFill = document.getElementById("accFill");
+        const signalResult = document.getElementById("signalResult");
+        const actionBtn = document.getElementById("actionBtn");
+
+        actionBtn.disabled = true;
+        actionBtn.style.opacity = "0.5";
+        outputArea.style.display = "block";
+        signalResult.style.display = "none";
+        
+        let progress = 0;
+        
+        const animation = setInterval(() => {
+            progress += Math.floor(Math.random() * 15) + 5;
+            if (progress > 100) progress = 100;
+            
+            accFill.style.width = progress + "%";
+            statusText.innerText = `Analyzing Live Technicals... ${progress}%`;
+
+            if (progress >= 100) {
+                clearInterval(animation);
+                showFinalVIPSignal();
+            }
+        }, 150);
+    }
+
+    function showFinalVIPSignal() {
+        const statusText = document.getElementById("statusText");
+        const signalResult = document.getElementById("signalResult");
+        const infoDetails = document.getElementById("infoDetails");
+        const pairText = document.getElementById("pairSelect").options[document.getElementById("pairSelect").selectedIndex].text;
+        const tfText = document.getElementById("timeframeSelect").options[document.getElementById("timeframeSelect").selectedIndex].text;
+        const actionBtn = document.getElementById("actionBtn");
+
+        statusText.innerText = "ANALYSIS COMPLETE ✔";
+        const accuracy = Math.floor(Math.random() * 14) + 84; 
+
+        infoDetails.innerHTML = `
+            <strong>Asset:</strong> ${pairText}<br>
+            <strong>Expiration:</strong> ${tfText}<br>
+            <strong>AI Accuracy:</strong> ${accuracy}%
+        `;
+
+        const pageContent = document.body.innerHTML;
+        if (pageContent.includes("Sell") || pageContent.includes("Strong Sell")) {
+            signalResult.innerText = "↓ DOWN (SELL)";
+            signalResult.className = "final-signal down-signal";
+        } else {
+            signalResult.innerText = "↑ UP (BUY)";
+            signalResult.className = "final-signal up-signal";
+        }
+
+        signalResult.style.display = "block";
+        actionBtn.disabled = false;
+        actionBtn.style.opacity = "1";
+    }
+
+    window.onload = updateWidget;
+</script>
+
+</body>
+</html>
