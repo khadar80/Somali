@@ -1,28 +1,198 @@
-<!-- Koodhkan ku beddel kii hore ee qaybta Grid-ka -->
-<style>
-    .signal-decision {
-        text-align: center;
-        padding: 15px;
-        font-size: 1.4rem;
-        font-weight: bold;
-        border-radius: 8px;
-        margin-top: 10px;
-        text-transform: uppercase;
-    }
-    .buy-signal { background-color: #238636; color: white; }
-    .sell-signal { background-color: #da3633; color: white; }
-    .price-display { font-size: 1.2rem; color: #58a6ff; margin: 5px 0; }
-</style>
-
-<script>
-    // Qaybtan waxaan ku soo bandhigaynaa qiimaha saxda ah ee suuqa (Price Live)
-    // Waxaad ku dari kartaa qaybtan gudaha renderSignals function-kaaga
-    function getSignalDecision(technicalAnalysis) {
-        if (technicalAnalysis === "STRONG_BUY" || technicalAnalysis === "BUY") {
-            return { text: "BUY SIGNAL", class: "buy-signal" };
-        } else if (technicalAnalysis === "STRONG_SELL" || technicalAnalysis === "SELL") {
-            return { text: "SELL SIGNAL", class: "sell-signal" };
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOM VIP SIGNALS - Premium Live Forex</title>
+    <style>
+        :root {
+            --bg-color: #06090f;
+            --card-bg: #0d1117;
+            --text-color: #f0f6fc;
+            --accent-green: #238636;
+            --accent-red: #da3633;
+            --blue-glow: #1f6feb;
+            --border-color: #30363d;
         }
-        return { text: "WAIT / NEUTRAL", class: "" };
-    }
-</script>
+
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header h1 {
+            color: var(--text-color);
+            font-size: 2.5rem;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        header h1 span {
+            color: #e3b341;
+            text-shadow: 0 0 10px rgba(227, 179, 65, 0.3);
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* VIP Tools Section (Search & WhatsApp) */
+        .vip-tools {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+
+        #pairSearch {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #20ba5a;
+            transform: translateY(-2px);
+        }
+
+        /* Controls Section for Timeframes */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .tf-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tf-btn:hover, .tf-btn.active {
+            background-color: var(--blue-glow);
+            border-color: var(--blue-glow);
+            box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
+        }
+
+        /* Signals Grid */
+        .signals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .signal-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .pair-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .live-badge {
+            background-color: rgba(35, 134, 54, 0.15);
+            color: #3fb950;
+            border: 1px solid #238636;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .widget-container {
+            width: 100%;
+            height: 340px;
+            background-color: transparent;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            color: #8b949e;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SOM <span>VIP SIGNALS</span></h1>
+    <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real Market Decisions)</p>
+</header>
+
+<div class="vip-tools">
+    
