@@ -41,7 +41,7 @@
         }
 
         header h1 span {
-            color: #e3b341; /* Gold VIP Color */
+            color: #e3b341;
             text-shadow: 0 0 10px rgba(227, 179, 65, 0.3);
         }
 
@@ -51,6 +51,45 @@
             margin-top: 5px;
         }
 
+        /* VIP Tools Section (Search & WhatsApp) */
+        .vip-tools {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+
+        #pairSearch {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: background 0.2s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #20ba5a;
+        }
+
         /* Controls Section for Timeframes */
         .controls {
             display: flex;
@@ -58,6 +97,8 @@
             margin-bottom: 25px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
+            max-width: 1200px;
         }
 
         .tf-btn {
@@ -130,7 +171,6 @@
             100% { opacity: 0.5; }
         }
 
-        /* Technical Gauge Widget Container */
         .widget-container {
             width: 100%;
             height: 220px;
@@ -152,7 +192,13 @@
     <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real-Time Market Feed)</p>
 </header>
 
-<!-- Qaybta Timeframes-ka -->
+<!-- VIP Tools Area (Search & WhatsApp Button) -->
+<div class="vip-tools">
+    <input type="text" id="pairSearch" placeholder="🔍 Raadi Pair (Tusaale: EURUSD)..." onkeyup="filterSignals()">
+    <a href="https://wa.me/252634170248" class="whatsapp-btn" target="_blank">💬 WhatsApp VIP</a>
+</div>
+
+<!-- Timeframes Setup -->
 <div class="controls">
     <button class="tf-btn" onclick="changeTimeframe('1m')">1M</button>
     <button class="tf-btn" onclick="changeTimeframe('5m')">5M</button>
@@ -162,20 +208,17 @@
     <button class="tf-btn" onclick="changeTimeframe('1d')">1D</button>
 </div>
 
-<!-- Grid-ka ay ku dhex jiraan Dhamaan Currency Pairs-ka ugu waaweyn -->
-<div class="signals-grid" id="signalsGrid">
-    <!-- Lammaanayaasha Lacagaha waxaa si toos ah u dhalin doona JavaScript -->
-</div>
+<!-- Grid Elements -->
+<div class="signals-grid" id="signalsGrid"></div>
 
 <div class="footer-note">
-    <p>&copy; 2026 SOM VIP SIGNALS. Dhammaan xogta waxay si toos ah uga timaadaa suuqa caalamiga ah ee Forex iyadoo la isticmaalayo nidaamka farsamada ee TradingView.</p>
+    <p>&copy; 2026 SOM VIP SIGNALS. Dhammaan xogta waxay si toos ah uga timaadaa suuqa caalamiga ah ee Forex.</p>
 </div>
 
-<!-- TradingView Embed Script API -->
+<!-- TradingView Embed API Script -->
 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async></script>
 
 <script>
-    // Liiska dhammaan currency pairs-ka Forex ugu caansan suuqyada VIP-da
     const currencyPairs = [
         { symbol: "FX:EURUSD", name: "EUR/USD" },
         { symbol: "FX:GBPUSD", name: "GBP/USD" },
@@ -187,14 +230,13 @@
         { symbol: "FX:EURGBP", name: "EUR/GBP" }
     ];
 
-    let currentTimeframe = "15m"; // Default timeframe
+    let currentTimeframe = "15m";
 
     function renderSignals() {
         const grid = document.getElementById("signalsGrid");
-        grid.innerHTML = ""; // Nadiifi grid-ka kahor intaan la dib u dhisin
+        grid.innerHTML = "";
 
         currencyPairs.forEach((pair, index) => {
-            // Abuur card-ka salka u ah lamaane kasta
             const card = document.createElement("div");
             card.className = "signal-card";
 
@@ -208,13 +250,11 @@
 
             grid.appendChild(card);
 
-            // Habka loogu dhex radayo widget-ka rasmiga ah ee suuqa la socda
             const widgetScript = document.createElement("script");
             widgetScript.type = "text/javascript";
             widgetScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
             widgetScript.async = true;
             
-            // Habaynta qaabka widget-ka VIP-da oo Advance ah
             widgetScript.innerHTML = JSON.stringify({
                 "interval": currentTimeframe,
                 "width": "100%",
@@ -232,22 +272,33 @@
         });
     }
 
-    // Habka loogu beddelayo Timeframe-yada kala duwan
     function changeTimeframe(tf) {
         currentTimeframe = tf;
-        
-        // Beddel muuqaalka badhamada (Active state)
         const buttons = document.querySelectorAll('.tf-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
-        
-        // Ku dar active badhanka la riixay
         event.target.classList.add('active');
-        
-        // Dib u kici nidaamka si xogta timeframe-ka cusub toos loogu soo jiido
         renderSignals();
     }
 
-    // Kici nidaamka markii ugu horreysay ee mareegtu furanto
+    // Search Filtering Functionality
+    function filterSignals() {
+        let input = document.getElementById('pairSearch').value.toUpperCase();
+        let grid = document.getElementById("signalsGrid");
+        let cards = grid.getElementsByClassName('signal-card');
+
+        for (let i = 0; i < cards.length; i++) {
+            let pairName = cards[i].getElementsByClassName("pair-name")[0].innerText;
+            // Ka saar '/' inta lagu jiro raadinta si EURUSD iyo EUR/USD ay isku mid u noqdaan
+            let cleanPairName = pairName.replace('/', '').toUpperCase();
+            
+            if (cleanPairName.indexOf(input) > -1 || pairName.toUpperCase().indexOf(input) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+
     window.onload = renderSignals;
 </script>
 
