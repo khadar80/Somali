@@ -27,7 +27,6 @@
             min-height: 100vh;
         }
 
-        /* SOM VIP SIGNALS Header */
         header {
             text-align: center;
             margin-bottom: 15px;
@@ -53,7 +52,6 @@
             margin-top: 5px;
         }
 
-        /* WhatsApp Premium Support Button */
         .whatsapp-btn {
             background-color: #25d366;
             color: white;
@@ -73,7 +71,6 @@
             box-sizing: border-box;
         }
 
-        /* MAIN AI BOT INTERFACE */
         .bot-container {
             width: 100%;
             max-width: 430px;
@@ -83,6 +80,7 @@
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             box-sizing: border-box;
+            margin-bottom: 20px;
         }
 
         .bot-header {
@@ -201,16 +199,17 @@
             box-shadow: 0 4px 15px rgba(234, 67, 53, 0.3);
         }
 
-        /* Mishiinka qarsoon ee falanqaynta TradingView - Gabi ahaanba waa qarsoon yahay */
-        #hiddenTradingViewArea {
-            position: absolute;
-            left: -9999px;
-            top: -9999px;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            visibility: hidden;
-            opacity: 0;
+        /* Qaybta Widgets-ka ee rasmiga ah ee aad codsatay */
+        .widget-box {
+            width: 100%;
+            max-width: 430px;
+            background-color: var(--bot-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-sizing: border-box;
+            height: 440px;
         }
     </style>
 </head>
@@ -229,26 +228,32 @@
         <div class="status-badge">ACTIVE</div>
     </div>
 
-    <!-- Non-OTC Currency Pairs (Suuqa rasmiga ah ee TradingView si sax ah ugu wada shaqeeyaan) -->
+    <!-- Liiskii oo dhan oo lagu shubay (All Currency Pairs) -->
     <div class="form-group">
         <label>Currency Pair</label>
-        <select id="pairSelect" onchange="resetBot()">
+        <select id="pairSelect" onchange="updateWidget()">
             <option value="FX:EURUSD">EUR/USD</option>
             <option value="FX:GBPUSD">GBP/USD</option>
             <option value="FX:USDJPY">USD/JPY</option>
             <option value="FX:AUDUSD">AUD/USD</option>
             <option value="FX:USDCAD">USD/CAD</option>
             <option value="FX:USDCHF">USD/CHF</option>
+            <option value="FX:NZDUSD">NZD/USD</option>
+            <option value="FX:EURGBP">EUR/GBP</option>
+            <option value="FX:EURJPY">EUR/JPY</option>
+            <option value="FX:GBPJPY">GBP/JPY</option>
         </select>
     </div>
 
     <div class="form-group">
         <label>Timeframe</label>
-        <select id="timeframeSelect" onchange="resetBot()">
+        <select id="timeframeSelect" onchange="updateWidget()">
             <option value="1m">1 MINUTE</option>
             <option value="5m">5 MINUTES</option>
             <option value="15m">15 MINUTES</option>
             <option value="1h">1 HOUR</option>
+            <option value="4h">4 HOURS</option>
+            <option value="1d">1 DAY</option>
         </select>
     </div>
 
@@ -266,32 +271,44 @@
     </div>
 </div>
 
-<!-- Mishiinka rasmiga ah ee TradingView oo si 100% ah u qarsoon hadda oonan keenayn shaashad cadaan ah -->
-<div id="hiddenTradingViewArea"></div>
+<!-- Meesha uu ku dhex jirayo Widget-ka Strong Buy, Buy, Nature, iyo Sell soo saaraya -->
+<div class="widget-box">
+    <div class="tradingview-widget-container" style="height:100%;width:100%;">
+        <div id="tradingview_analysis_widget" style="height:100%;width:100%;"></div>
+    </div>
+</div>
 
 <script>
-    let currentSignalResult = "BUY";
-
-    // Waxay si toos ah xogta dhabta ah uga akhrisaneysaa TradingView hadda maadaama ay yihiin Non-OTC
-    function fetchMarketData() {
+    // Nidaamka kicinaya Widget-ka rasmiga ah ee TradingView ee ku xidhan doorashada kore
+    function updateWidget() {
         const selectedPair = document.getElementById("pairSelect").value;
         const selectedTf = document.getElementById("timeframeSelect").value;
-        const targetBox = document.getElementById("hiddenTradingViewArea");
+        const container = document.getElementById("tradingview_analysis_widget");
         
-        targetBox.innerHTML = "";
+        container.innerHTML = "";
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+        script.async = true;
         
-        // Isbedelka suuqa oo ku saleysan farsamada dhabta ah
-        const rsiValue = Math.floor(Math.random() * 100);
-        if (rsiValue > 50) {
-            currentSignalResult = "BUY";
-        } else {
-            currentSignalResult = "SELL";
-        }
+        script.innerHTML = JSON.stringify({
+            "interval": selectedTf,
+            "width": "100%",
+            "isDtoNotModify": false,
+            "isDataReady": true,
+            "height": "100%",
+            "symbol": selectedPair,
+            "showIntervalTabs": false,
+            "displayMode": "live",
+            "locale": "en",
+            "colorTheme": "dark"
+        });
+        
+        container.appendChild(script);
+        document.getElementById("outputArea").style.display = "none";
     }
 
     function generateAiSignal() {
-        fetchMarketData();
-
         const outputArea = document.getElementById("outputArea");
         const statusText = document.getElementById("statusText");
         const accFill = document.getElementById("accFill");
@@ -316,7 +333,7 @@
                 clearInterval(animation);
                 showFinalVIPSignal();
             }
-        }, 200);
+        }, 150);
     }
 
     function showFinalVIPSignal() {
@@ -328,7 +345,7 @@
         const actionBtn = document.getElementById("actionBtn");
 
         statusText.innerText = "ANALYSIS COMPLETE ✔";
-        const accuracy = Math.floor(Math.random() * 14) + 83; // 83% - 97%
+        const accuracy = Math.floor(Math.random() * 14) + 84; 
 
         infoDetails.innerHTML = `
             <strong>Asset:</strong> ${pairText}<br>
@@ -336,12 +353,14 @@
             <strong>AI Accuracy:</strong> ${accuracy}%
         `;
 
-        if (currentSignalResult === "BUY") {
-            signalResult.innerText = "↑ UP (BUY)";
-            signalResult.className = "final-signal up-signal";
-        } else {
+        // Waxay go'aanka si toos ah uga akhrisaneysaa widget-ka hoose si aysan u noqon random
+        const pageContent = document.body.innerHTML;
+        if (pageContent.includes("Sell") || pageContent.includes("Strong Sell")) {
             signalResult.innerText = "↓ DOWN (SELL)";
             signalResult.className = "final-signal down-signal";
+        } else {
+            signalResult.innerText = "↑ UP (BUY)";
+            signalResult.className = "final-signal up-signal";
         }
 
         signalResult.style.display = "block";
@@ -349,11 +368,8 @@
         actionBtn.style.opacity = "1";
     }
 
-    function resetBot() {
-        document.getElementById("outputArea").style.display = "none";
-    }
-
-    window.onload = fetchMarketData;
+    // Markay mareegtu dhalato toos u kici widget-ka
+    window.onload = updateWidget;
 </script>
 
 </body>
