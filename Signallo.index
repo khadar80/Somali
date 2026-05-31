@@ -1,0 +1,28 @@
+<!-- Koodhkan ku beddel kii hore ee qaybta Grid-ka -->
+<style>
+    .signal-decision {
+        text-align: center;
+        padding: 15px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        border-radius: 8px;
+        margin-top: 10px;
+        text-transform: uppercase;
+    }
+    .buy-signal { background-color: #238636; color: white; }
+    .sell-signal { background-color: #da3633; color: white; }
+    .price-display { font-size: 1.2rem; color: #58a6ff; margin: 5px 0; }
+</style>
+
+<script>
+    // Qaybtan waxaan ku soo bandhigaynaa qiimaha saxda ah ee suuqa (Price Live)
+    // Waxaad ku dari kartaa qaybtan gudaha renderSignals function-kaaga
+    function getSignalDecision(technicalAnalysis) {
+        if (technicalAnalysis === "STRONG_BUY" || technicalAnalysis === "BUY") {
+            return { text: "BUY SIGNAL", class: "buy-signal" };
+        } else if (technicalAnalysis === "STRONG_SELL" || technicalAnalysis === "SELL") {
+            return { text: "SELL SIGNAL", class: "sell-signal" };
+        }
+        return { text: "WAIT / NEUTRAL", class: "" };
+    }
+</script>
