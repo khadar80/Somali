@@ -330,6 +330,24 @@
         const signalResult = document.getElementById("signalResult");
         const actionBtn = document.getElementById("actionBtn");
 
+        // Hubinta Maalmaha Sabtida (6) iyo Axadda (0) si otomaatig ah
+        const maanta = new Date().getDay();
+        if (maanta === 6 || maanta === 0) {
+            actionBtn.disabled = true;
+            outputArea.style.display = "block";
+            statusText.innerText = "ALARM: SUUQU WAA XIDHAN YAHAY! ❌";
+            document.getElementById("infoDetails").innerHTML = `
+                <strong style="color: #ea4335;">Forex Real Market is Closed!</strong><br>
+                Sigaalka SOM VIP SIGNALS wuxuu shaqeeyaa Isniin ilaa Jimco oo kaliya. Ka fogow OTC-ga Pocket Option maanta!
+            `;
+            accFill.style.width = "0%";
+            signalResult.style.display = "none";
+            
+            setTimeout(() => { actionBtn.disabled = false; }, 3000);
+            return;
+        }
+
+        // Haddii ay tahay maalmaha shaqada ee caadiga ah (Isniin - Jimco)
         actionBtn.disabled = true;
         actionBtn.style.opacity = "0.5";
         outputArea.style.display = "block";
