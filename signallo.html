@@ -92,91 +92,16 @@
             transform: translateY(-2px);
         }
 
-        /* Controls Section for Timeframes */
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* Main Dashboard Container */
+        .dashboard-container {
             width: 100%;
             max-width: 1200px;
-        }
-
-        .tf-btn {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .tf-btn:hover, .tf-btn.active {
-            background-color: var(--blue-glow);
-            border-color: var(--blue-glow);
-            box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
-        }
-
-        /* Signals Grid */
-        .signals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .signal-card {
+            height: 650px; /* Boos weyn oo ku habboon moobilka iyo pc-ga */
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            position: relative;
             overflow: hidden;
-        }
-
-        .signal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .pair-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .live-badge {
-            background-color: rgba(35, 134, 54, 0.15);
-            color: #3fb950;
-            border: 1px solid #238636;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        .widget-container {
-            width: 100%;
-            height: 340px;
-            background-color: transparent;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .footer-note {
@@ -195,4 +120,47 @@
 </header>
 
 <div class="vip-tools">
-    
+    <input type="text" id="pairSearch" placeholder="🔍 Ka raadi lammaanaha lacagaha halkan..." disabled style="opacity: 0.6; cursor: not-allowed;">
+    <a href="https://wa.me/252907492663" class="whatsapp-btn" target="_blank">💬 Caawimaad Gaara & VIP Strategy</a>
+</div>
+
+<div class="dashboard-container">
+    <div class="tradingview-widget-container" style="height:100%;width:100%;">
+        <div id="tradingview_forex_signals" style="height:100%;width:100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+        new TradingView.MediumWidget({
+            "symbols": [
+                ["EUR/USD", "FX:EURUSD|15m"],
+                ["GBP/USD", "FX:GBPUSD|15m"],
+                ["USD/JPY", "FX:USDJPY|15m"],
+                ["AUD/USD", "FX:AUDUSD|15m"],
+                ["USD/CAD", "FX:USDCAD|15m"],
+                ["USD/CHF", "FX:USDCHF|15m"],
+                ["NZD/USD", "FX:NZDUSD|15m"],
+                ["EUR/GBP", "FX:EURGBP|15m"]
+            ],
+            "chartOnly": false,
+            "width": "100%",
+            "height": "100%",
+            "locale": "en",
+            "colorTheme": "dark",
+            "gridLineColor": "rgba(42, 46, 57, 0)",
+            "trendLineColor": "#1f6feb",
+            "fontColor": "#787b86",
+            "underLineColor": "rgba(0, 150, 136, 0.3)",
+            "underLineBottomColor": "rgba(0, 150, 136, 0)",
+            "isTransparent": false,
+            "autosize": true,
+            "container_id": "tradingview_forex_signals"
+        });
+        </script>
+    </div>
+</div>
+
+<div class="footer-note">
+    <p>&copy; 2026 SOM VIP SIGNALS. Dhammaan xogta iyo calaamadaha (BUY/SELL) waxay si toos ah u shaqaynayaan iyadoo la adeegsanayo nidaamka suuqyada caalamiga ah.</p>
+</div>
+
+</body>
+</html>
