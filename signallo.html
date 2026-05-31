@@ -20,7 +20,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,14 +28,14 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 600px;
         }
 
         header h1 {
             color: var(--text-color);
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin: 0;
             letter-spacing: 1px;
         }
@@ -47,68 +47,94 @@
 
         header p {
             color: #8b949e;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-top: 5px;
         }
 
-        /* VIP Tools Section (Search & WhatsApp) */
         .vip-tools {
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 12px;
             margin-bottom: 25px;
             width: 100%;
-            max-width: 1200px;
-            flex-wrap: wrap;
-        }
-
-        #pairSearch {
-            flex: 1;
-            min-width: 250px;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: white;
-            font-size: 1rem;
+            max-width: 500px;
         }
 
         .whatsapp-btn {
             background-color: #25d366;
             color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
+            padding: 14px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            font-size: 1rem;
-            transition: background 0.2s ease, transform 0.1s ease;
+            font-size: 1.1rem;
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            transition: transform 0.1s ease;
         }
 
         .whatsapp-btn:hover {
-            background-color: #20ba5a;
             transform: translateY(-2px);
         }
 
-        /* Main Dashboard Container */
-        .dashboard-container {
+        /* Navigaatorka Currency Pairs-ka */
+        .pair-selectors {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
             width: 100%;
-            max-width: 1200px;
-            height: 650px; /* Boos weyn oo ku habboon moobilka iyo pc-ga */
+            max-width: 500px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pair-selectors::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .pair-selectors::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .p-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .p-btn.active {
+            background-color: #e3b341;
+            color: #000;
+            border-color: #e3b341;
+        }
+
+        /* Dashboard Container ka */
+        .signal-box {
+            width: 100%;
+            max-width: 500px;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            padding: 5px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+            height: 450px; /* Boos sax ah oo loogu talagalay Gauge-ka shaashadda moobilka */
         }
 
         .footer-note {
-            margin-top: 40px;
+            margin-top: 30px;
             color: #8b949e;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-align: center;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -116,51 +142,82 @@
 
 <header>
     <h1>SOM <span>VIP SIGNALS</span></h1>
-    <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real Market Decisions)</p>
+    <p>Go'aamo Toos Ah oo ku Salaysan Qiimaha Suuqa (100% Real-Time Decisions)</p>
 </header>
 
 <div class="vip-tools">
-    <input type="text" id="pairSearch" placeholder="🔍 Ka raadi lammaanaha lacagaha halkan..." disabled style="opacity: 0.6; cursor: not-allowed;">
     <a href="https://wa.me/252907492663" class="whatsapp-btn" target="_blank">💬 Caawimaad Gaara & VIP Strategy</a>
 </div>
 
-<div class="dashboard-container">
+<!-- Liiska lammaanaha lacagaha ee loo dhex weynayo -->
+<div class="pair-selectors">
+    <button class="p-btn active" onclick="changePair('FX:EURUSD', this)">EUR/USD</button>
+    <button class="p-btn" onclick="changePair('FX:GBPUSD', this)">GBP/USD</button>
+    <button class="p-btn" onclick="changePair('FX:USDJPY', this)">USD/JPY</button>
+    <button class="p-btn" onclick="changePair('FX:AUDUSD', this)">AUD/USD</button>
+    <button class="p-btn" onclick="changePair('FX:USDCAD', this)">USD/CAD</button>
+    <button class="p-btn" onclick="changePair('FX:USDCHF', this)">USD/CHF</button>
+</div>
+
+<!-- Meesha uu ka soo muuqanayo Signal-ka rasmiga ah ee leh go'aanka BUY/SELL -->
+<div class="signal-box" id="widgetContainer">
+    <!-- TradingView Technical Analysis Widget -->
     <div class="tradingview-widget-container" style="height:100%;width:100%;">
-        <div id="tradingview_forex_signals" style="height:100%;width:100%;"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-        <script type="text/javascript">
-        new TradingView.MediumWidget({
-            "symbols": [
-                ["EUR/USD", "FX:EURUSD|15m"],
-                ["GBP/USD", "FX:GBPUSD|15m"],
-                ["USD/JPY", "FX:USDJPY|15m"],
-                ["AUD/USD", "FX:AUDUSD|15m"],
-                ["USD/CAD", "FX:USDCAD|15m"],
-                ["USD/CHF", "FX:USDCHF|15m"],
-                ["NZD/USD", "FX:NZDUSD|15m"],
-                ["EUR/GBP", "FX:EURGBP|15m"]
-            ],
-            "chartOnly": false,
-            "width": "100%",
-            "height": "100%",
-            "locale": "en",
-            "colorTheme": "dark",
-            "gridLineColor": "rgba(42, 46, 57, 0)",
-            "trendLineColor": "#1f6feb",
-            "fontColor": "#787b86",
-            "underLineColor": "rgba(0, 150, 136, 0.3)",
-            "underLineBottomColor": "rgba(0, 150, 136, 0)",
-            "isTransparent": false,
-            "autosize": true,
-            "container_id": "tradingview_forex_signals"
-        });
-        </script>
+        <div id="tradingview_analysis_widget" style="height:100%;width:100%;"></div>
     </div>
 </div>
 
 <div class="footer-note">
-    <p>&copy; 2026 SOM VIP SIGNALS. Dhammaan xogta iyo calaamadaha (BUY/SELL) waxay si toos ah u shaqaynayaan iyadoo la adeegsanayo nidaamka suuqyada caalamiga ah.</p>
+    <p>&copy; 2026 SOM VIP SIGNALS. Signal-kani waa mid dhab ah oo xisaabinaya tilmaamayaasha farsamada (RSI, Moving Averages) ee qiimaha suuqyada hadda taagan.</p>
 </div>
+
+<!-- Soo jiidashada Script-ka rasmiga ah ee guurguura -->
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async></script>
+
+<script>
+    let currentSymbol = "FX:EURUSD";
+
+    function loadWidget() {
+        // Clear-garee container-ka ka hor intaanan dib u dhisin
+        const container = document.getElementById("tradingview_analysis_widget");
+        container.innerHTML = "";
+
+        const widgetScript = document.createElement("script");
+        widgetScript.type = "text/javascript";
+        widgetScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+        widgetScript.async = true;
+
+        // Kani waa nidaamka muujinaya mishiinka go'aanka (Gauges) ee leh BUY/SELL iyo Timeframes ee moobilka ku habboon
+        widgetScript.innerHTML = JSON.stringify({
+            "interval": "15m",
+            "width": "100%",
+            "isDtoNotModify": false,
+            "isDataReady": true,
+            "height": "100%",
+            "symbol": currentSymbol,
+            "showIntervalTabs": true, /* Tani waxay qofka u ogolaanaysaa inuu moobilka ka doorto 1m, 5m, 15m, 1h, 1d */
+            "displayMode": "live",
+            "locale": "en",
+            "colorTheme": "dark"
+        });
+
+        container.appendChild(widgetScript);
+    }
+
+    function changePair(symbol, element) {
+        currentSymbol = symbol;
+        
+        // Beddel naqshadda badhanka la doortay
+        const buttons = document.querySelectorAll('.p-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        
+        loadWidget();
+    }
+
+    // Markay mareegtu dhalato toos u kici widget-ka
+    window.onload = loadWidget;
+</script>
 
 </body>
 </html>
