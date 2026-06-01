@@ -13,6 +13,7 @@
             --accent-red: #ea4335;
             --border-color: #30363d;
             --gold: #e3b341;
+            --whatsapp-green: #25d366;
         }
 
         body {
@@ -208,7 +209,6 @@
             padding: 10px;
         }
 
-        /* Waxaa lagu sameeyay baaxad sax ah si uu moobilka ugu dhex jiro */
         .gauge-box {
             height: 380px;
             padding: 5px;
@@ -220,6 +220,37 @@
         .gauge-box > div {
             width: 100%;
             height: 100%;
+        }
+
+        /* Qaybta WhatsApp Button Style */
+        .whatsapp-btn {
+            width: 100%;
+            max-width: 430px;
+            background-color: var(--whatsapp-green);
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .whatsapp-btn:active {
+            transform: scale(0.98);
+        }
+
+        .whatsapp-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -294,6 +325,14 @@
     <div id="tradingview_gauge_widget"></div>
 </div>
 
+<!-- Badhanka WhatsApp-ka ee cusub -->
+<a href="https://wa.me/252907492663?text=Wixii%20caawimaad%20gaar%20ah%20iyo%20strategy" class="whatsapp-btn" target="_blank">
+    <svg viewBox="0 0 24 24">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-2.286c1.6.951 3.188 1.452 4.82 1.453 5.461 0 9.904-4.379 9.907-9.763.002-2.607-1.01-5.059-2.85-6.902C16.685 4.658 14.233 3.65 11.634 3.65c-5.466 0-9.91 4.381-9.913 9.766-.001 1.701.465 3.359 1.348 4.847l-.999 3.649 3.754-.974zm11.167-7.25c-.29-.145-1.716-.845-1.981-.94-.266-.096-.46-.145-.653.145-.193.291-.748.94-.917 1.133-.169.193-.338.217-.628.072-.29-.145-1.226-.452-2.335-1.436-.864-.766-1.448-1.714-1.618-2.004-.17-.29-.018-.447.127-.591.13-.13.29-.338.435-.507.145-.17.193-.29.29-.483.097-.193.048-.361-.024-.507-.072-.145-.653-1.57-.894-2.15-.234-.565-.47-.488-.653-.498-.169-.008-.362-.01-.555-.01-.193 0-.507.072-.772.361-.266.291-1.014.991-1.014 2.415 0 1.425 1.039 2.798 1.184 2.992.145.193 2.044 3.12 4.953 4.376.691.299 1.232.478 1.654.612.695.221 1.328.19 1.83.115.56-.083 1.716-.7 1.961-1.374.246-.674.246-1.253.173-1.374-.074-.121-.268-.194-.559-.34z"/>
+    </svg>
+    Wixii caawimaad gaar ah iyo strategy
+</a>
+
 <script>
     function updateAllWidgets() {
         const selectedPair = document.getElementById("pairSelect").value;
@@ -363,5 +402,4 @@
 </script>
 
 </body>
-                </html>
-    
+</html>
