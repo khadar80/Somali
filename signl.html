@@ -208,8 +208,9 @@
             height: 100px;
         }
 
+        /* Halkan waxaa laga dhigay 450px si uu mishiinku si buuxda ugu fit-gariro dherer ahaan */
         .gauge-box {
-            height: 420px;
+            height: 450px;
         }
     </style>
 </head>
@@ -226,7 +227,6 @@
         <div class="status-badge">ACTIVE</div>
     </div>
 
-    <!-- Dhammaan Currency Pairs-ka oo dhammaystiran -->
     <div class="form-group">
         <label>Currency Pair</label>
         <select id="pairSelect" onchange="updateAllWidgets()">
@@ -243,7 +243,6 @@
         </select>
     </div>
 
-    <!-- Dhammaan Timeframes-ka oo dhammaystiran -->
     <div class="form-group">
         <label>Timeframe</label>
         <select id="timeframeSelect" onchange="updateAllWidgets()">
@@ -278,12 +277,10 @@
     </div>
 </div>
 
-<!-- Widget-ka 1aad: Live Ticker (Qiimaha) -->
 <div class="widget-box">
     <div id="tradingview_ticker_widget"></div>
 </div>
 
-<!-- Widget-ka 2aad: Technical Analysis Gauge (Strong Buy/Sell) -->
 <div class="gauge-box">
     <div id="tradingview_gauge_widget"></div>
 </div>
@@ -293,7 +290,6 @@
         const selectedPair = document.getElementById("pairSelect").value;
         const selectedTF = document.getElementById("timeframeSelect").value;
         
-        // 1. Cusboonaysiinta Live Ticker Widget
         const tickerContainer = document.getElementById("tradingview_ticker_widget");
         tickerContainer.innerHTML = "";
         const tickerScript = document.createElement("script");
@@ -309,7 +305,6 @@
         });
         tickerContainer.appendChild(tickerScript);
 
-        // 2. Cusboonaysiinta Gauge Widget (Strong Buy/Sell)
         const gaugeContainer = document.getElementById("tradingview_gauge_widget");
         gaugeContainer.innerHTML = "";
         const gaugeScript = document.createElement("script");
@@ -359,5 +354,4 @@
 </script>
 
 </body>
-                                                                                           </html>
-    
+</html>
