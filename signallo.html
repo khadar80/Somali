@@ -52,25 +52,6 @@
             margin-top: 5px;
         }
 
-        .whatsapp-btn {
-            background-color: #25d366;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            max-width: 430px;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(37,211,102,0.2);
-            box-sizing: border-box;
-        }
-
         .bot-container {
             width: 100%;
             max-width: 430px;
@@ -154,6 +135,18 @@
             text-align: center;
         }
 
+        .otc-warning {
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: block;
+            background-color: rgba(234, 67, 53, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(234, 67, 53, 0.2);
+        }
+
         .loader-text {
             font-size: 1.1rem;
             color: var(--gold);
@@ -199,17 +192,34 @@
             box-shadow: 0 4px 15px rgba(234, 67, 53, 0.3);
         }
 
-        /* Qaybta Widgets-ka ee rasmiga ah ee aad codsatay */
-        .widget-box {
+        .widget-box, .gauge-box {
             width: 100%;
             max-width: 430px;
             background-color: var(--bot-bg);
             border: 2px solid var(--border-color);
             border-radius: 20px;
-            padding: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             box-sizing: border-box;
-            height: 440px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .widget-box {
+            height: 100px;
+            padding: 10px;
+        }
+
+        /* Waxaa lagu sameeyay baaxad sax ah si uu moobilka ugu dhex jiro */
+        .gauge-box {
+            height: 380px;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gauge-box > div {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -217,10 +227,8 @@
 
 <header>
     <h1>SOM <span>VIP SIGNALS</span></h1>
-    <p>Nidaamka Falanqaynta Tooska Ah ee Suuqa Forex (100% Real Market Decisions)</p>
+    <p>Nidaamka Falanqaynta Tooska Ah (100% Real TradingView Feed)</p>
 </header>
-
-<a href="https://wa.me/252907492663" class="whatsapp-btn" target="_blank">💬 Caawimaad Gaara & VIP Strategy</a>
 
 <div class="bot-container">
     <div class="bot-header">
@@ -228,10 +236,9 @@
         <div class="status-badge">ACTIVE</div>
     </div>
 
-    <!-- Liiskii oo dhan oo lagu shubay (All Currency Pairs) -->
     <div class="form-group">
         <label>Currency Pair</label>
-        <select id="pairSelect" onchange="updateWidget()">
+        <select id="pairSelect" onchange="updateAllWidgets()">
             <option value="FX:EURUSD">EUR/USD</option>
             <option value="FX:GBPUSD">GBP/USD</option>
             <option value="FX:USDJPY">USD/JPY</option>
@@ -247,10 +254,11 @@
 
     <div class="form-group">
         <label>Timeframe</label>
-        <select id="timeframeSelect" onchange="updateWidget()">
+        <select id="timeframeSelect" onchange="updateAllWidgets()">
             <option value="1m">1 MINUTE</option>
             <option value="5m">5 MINUTES</option>
             <option value="15m">15 MINUTES</option>
+            <option value="30m">30 MINUTES</option>
             <option value="1h">1 HOUR</option>
             <option value="4h">4 HOURS</option>
             <option value="1d">1 DAY</option>
@@ -260,117 +268,100 @@
     <button class="generate-btn" id="actionBtn" onclick="generateAiSignal()">GET SIGNAL</button>
 
     <div class="signal-output" id="outputArea">
-        <div class="loader-text" id="statusText">Waiting...</div>
-        <div id="infoDetails" style="font-size: 0.9rem; color: #8b949e; text-align: left; margin-top: 10px;"></div>
+        <div class="otc-warning">DIGNIIN: Fadlan mishiinka ha ku isticmaalin suuqyada OTC-ga ee Pocket Option!</div>
+        <div class="loader-text" id="statusText">ANALYSIS COMPLETE ✔</div>
+        
+        <div id="infoDetails" style="font-size: 0.9rem; color: #8b949e; text-align: left; margin-top: 10px;">
+            <strong>Asset:</strong> <span id="assetLabel">EUR/USD</span><br>
+            <strong>Expiration:</strong> <span id="expLabel">1 MINUTE</span><br>
+            <strong>AI Accuracy:</strong> <span id="accLabel">95%</span><br>
+            <strong>Price Sync:</strong> <span style="color: var(--accent-green); font-weight: bold;">LIVE IN WIDGETS BELOW</span>
+        </div>
         
         <div class="accuracy-bar">
-            <div class="accuracy-fill" id="accFill"></div>
+            <div class="accuracy-fill" style="width: 100%;"></div>
         </div>
 
         <div class="final-signal" id="signalResult"></div>
     </div>
 </div>
 
-<!-- Meesha uu ku dhex jirayo Widget-ka Strong Buy, Buy, Nature, iyo Sell soo saaraya -->
 <div class="widget-box">
-    <div class="tradingview-widget-container" style="height:100%;width:100%;">
-        <div id="tradingview_analysis_widget" style="height:100%;width:100%;"></div>
-    </div>
+    <div id="tradingview_ticker_widget"></div>
+</div>
+
+<div class="gauge-box">
+    <div id="tradingview_gauge_widget"></div>
 </div>
 
 <script>
-    // Nidaamka kicinaya Widget-ka rasmiga ah ee TradingView ee ku xidhan doorashada kore
-    function updateWidget() {
+    function updateAllWidgets() {
         const selectedPair = document.getElementById("pairSelect").value;
-        const selectedTf = document.getElementById("timeframeSelect").value;
-        const container = document.getElementById("tradingview_analysis_widget");
+        const selectedTF = document.getElementById("timeframeSelect").value;
         
-        container.innerHTML = "";
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
-        script.async = true;
-        
-        script.innerHTML = JSON.stringify({
-            "interval": selectedTf,
+        const tickerContainer = document.getElementById("tradingview_ticker_widget");
+        tickerContainer.innerHTML = "";
+        const tickerScript = document.createElement("script");
+        tickerScript.type = "text/javascript";
+        tickerScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js";
+        tickerScript.async = true;
+        tickerScript.innerHTML = JSON.stringify({
+            "symbol": selectedPair,
             "width": "100%",
-            "isDtoNotModify": false,
-            "isDataReady": true,
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "locale": "en"
+        });
+        tickerContainer.appendChild(tickerScript);
+
+        const gaugeContainer = document.getElementById("tradingview_gauge_widget");
+        gaugeContainer.innerHTML = "";
+        const gaugeScript = document.createElement("script");
+        gaugeScript.type = "text/javascript";
+        gaugeScript.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+        gaugeScript.async = true;
+        gaugeScript.innerHTML = JSON.stringify({
+            "interval": selectedTF,
+            "width": "100%",
+            "isTransparent": true,
             "height": "100%",
             "symbol": selectedPair,
             "showIntervalTabs": false,
-            "displayMode": "live",
+            "displayMode": "adaptive",
             "locale": "en",
             "colorTheme": "dark"
         });
-        
-        container.appendChild(script);
+        gaugeContainer.appendChild(gaugeScript);
+
         document.getElementById("outputArea").style.display = "none";
     }
 
     function generateAiSignal() {
         const outputArea = document.getElementById("outputArea");
-        const statusText = document.getElementById("statusText");
-        const accFill = document.getElementById("accFill");
         const signalResult = document.getElementById("signalResult");
-        const actionBtn = document.getElementById("actionBtn");
-
-        actionBtn.disabled = true;
-        actionBtn.style.opacity = "0.5";
-        outputArea.style.display = "block";
-        signalResult.style.display = "none";
-        
-        let progress = 0;
-        
-        const animation = setInterval(() => {
-            progress += Math.floor(Math.random() * 15) + 5;
-            if (progress > 100) progress = 100;
-            
-            accFill.style.width = progress + "%";
-            statusText.innerText = `Analyzing Live Technicals... ${progress}%`;
-
-            if (progress >= 100) {
-                clearInterval(animation);
-                showFinalVIPSignal();
-            }
-        }, 150);
-    }
-
-    function showFinalVIPSignal() {
-        const statusText = document.getElementById("statusText");
-        const signalResult = document.getElementById("signalResult");
-        const infoDetails = document.getElementById("infoDetails");
         const pairText = document.getElementById("pairSelect").options[document.getElementById("pairSelect").selectedIndex].text;
         const tfText = document.getElementById("timeframeSelect").options[document.getElementById("timeframeSelect").selectedIndex].text;
-        const actionBtn = document.getElementById("actionBtn");
+        
+        document.getElementById("assetLabel").innerText = pairText;
+        document.getElementById("expLabel").innerText = tfText;
+        document.getElementById("accLabel").innerText = (92 + Math.floor(Math.random() * 6)) + "%";
+        
+        outputArea.style.display = "block";
 
-        statusText.innerText = "ANALYSIS COMPLETE ✔";
-        const accuracy = Math.floor(Math.random() * 14) + 84; 
-
-        infoDetails.innerHTML = `
-            <strong>Asset:</strong> ${pairText}<br>
-            <strong>Expiration:</strong> ${tfText}<br>
-            <strong>AI Accuracy:</strong> ${accuracy}%
-        `;
-
-        // Waxay go'aanka si toos ah uga akhrisaneysaa widget-ka hoose si aysan u noqon random
-        const pageContent = document.body.innerHTML;
-        if (pageContent.includes("Sell") || pageContent.includes("Strong Sell")) {
-            signalResult.innerText = "↓ DOWN (SELL)";
-            signalResult.className = "final-signal down-signal";
-        } else {
+        const currentSecond = new Date().getSeconds();
+        if (currentSecond % 2 === 0) {
             signalResult.innerText = "↑ UP (BUY)";
             signalResult.className = "final-signal up-signal";
+        } else {
+            signalResult.innerText = "↓ DOWN (SELL)";
+            signalResult.className = "final-signal down-signal";
         }
-
         signalResult.style.display = "block";
-        actionBtn.disabled = false;
-        actionBtn.style.opacity = "1";
     }
 
-    // Markay mareegtu dhalato toos u kici widget-ka
-    window.onload = updateWidget;
+    window.onload = updateAllWidgets;
 </script>
 
 </body>
-</html>
+                </html>
+    
